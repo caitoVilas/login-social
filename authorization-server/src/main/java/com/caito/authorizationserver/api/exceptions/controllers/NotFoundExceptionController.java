@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 /**
  * @author claudio.vilas
  * date 12/2023
- * description handle para manejar error NotFoundException
+ * description handler para manejar error NotFoundException
  */
 
 @RestControllerAdvice
