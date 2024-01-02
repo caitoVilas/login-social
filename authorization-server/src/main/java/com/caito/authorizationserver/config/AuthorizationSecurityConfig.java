@@ -52,6 +52,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuthorizationSecurityConfig {
     private final PasswordEncoder passwordEncoder;
+    //private final ClentServiceImpl clentService;
 
     @Bean
     @Order(1)
@@ -70,21 +71,12 @@ public class AuthorizationSecurityConfig {
     @Order(2)
     public SecurityFilterChain webFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth ->
-                        auth.requestMatchers("api/v1/users/create").permitAll()
+                        auth.requestMatchers("/api/v1/users/create", "/api/v1/clients/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
-        http.csrf(ccf -> ccf.ignoringRequestMatchers("api/v1/users/create"));
+        http.csrf(ccf -> ccf.ignoringRequestMatchers("/api/v1/users/create", "/api/v1/clients/**"));
         return http.build();
     }
-
-   /* @Bean
-    public UserDetailsService userDetailsService(){
-        UserDetails userDetails = User.withUsername("user")
-                .password("{noop}user")
-                .authorities("USER")
-                .build();
-        return new InMemoryUserDetailsManager(userDetails);
-    }*/
 
     @Bean
     public RegisteredClientRepository registeredClientRepository(){
@@ -154,5 +146,10 @@ public class AuthorizationSecurityConfig {
     @Bean
     public AuthorizationServerSettings authorizationServerSettings() {
         return AuthorizationServerSettings.builder().build();
+    }
+
+    @Bean
+    public ClientSettings clientSettings(){
+        return ClientSettings.builder().requireProofKey(true).build();
     }
 }
