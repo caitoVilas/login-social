@@ -51,7 +51,7 @@ public class AppUserServiceImpl implements AppUserService {
                 .disabled(false)
                 .build();
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.findByRoleName(RoleName.ROLE_ADMIN)
+        roles.add(roleRepository.findByRoleName(RoleName.ROLE_USER)
                 .orElseThrow(()->{
                     log.error("ERROR: ".concat(RoleConst.R_NOT_FOUND));
                     return new NotFoundException(RoleConst.R_NOT_FOUND);
